@@ -2,5 +2,6 @@
     <string name="app_name">ChatsApp</string>
     <string name="phoneNumber">Enter Phone Number</string>
     <string name="code">Enter Code</string>
-    <string name="button_send">Send</string>
+    <string name="button_send">Send Verification Code</string>
+    <string name="button_logout">Logout</string>
 </resources>
