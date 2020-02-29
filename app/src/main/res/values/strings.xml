@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChatsApp</string>
+    <string name="phoneNumber">Enter Phone Number</string>
 </resources>
