@@ -2,7 +2,9 @@ package uk.ac.tees.w9218308.chatsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,5 +39,13 @@ public class MainPageActivity extends AppCompatActivity {
                 return;
             }
         });
+
+        getPermissions();
+    }
+
+    private void getPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS,Manifest.permission.READ_CONTACTS},1);
+        }
     }
 }
