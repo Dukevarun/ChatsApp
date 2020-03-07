@@ -7,4 +7,5 @@
     <string name="find_users">Find User</string>
     <string name="user_name">Name</string>
     <string name="user_phone">Phone</string>
+    <string name="chat_title">Title</string>
 </resources>
