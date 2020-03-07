@@ -66,7 +66,7 @@ public class FindUserActivity extends AppCompatActivity {
                 phone = ISOPrefix + phone;
             }
 
-            UserObject mContact = new UserObject(name, phone);
+            UserObject mContact = new UserObject("", name, phone);
             contactList.add(mContact);
             getUserDetails(mContact);
         }
@@ -87,7 +87,7 @@ public class FindUserActivity extends AppCompatActivity {
                         if (childSnapshot.child("name").getValue() != null) {
                             name = childSnapshot.child("name").getValue().toString();
                         }
-                        UserObject mUser = new UserObject(name,phone);
+                        UserObject mUser = new UserObject(childSnapshot.getKey(), name,phone);
 
                         if(name.equals(phone)) {
                             for (UserObject mContactIterator : contactList) {
