@@ -70,9 +70,16 @@ public class MainPageActivity extends AppCompatActivity {
         mUserChatDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
+                if (dataSnapshot.exists()) {
                     for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                         ChatObject mChat = new ChatObject(childSnapshot.getKey());
+                        boolean exists = false;
+                        for (ChatObject mChatIterator : chatList) {
+                            if (mChatIterator.getChatId().equals(mChat.getChatId()))
+                                exists = true;
+                        }
+                        if (exists)
+                            continue;
                         chatList.add(mChat);
                         mChatListAdapter.notifyDataSetChanged();
                     }
@@ -87,6 +94,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     private void initializeRecyclerView() {
+        chatList = new ArrayList<>();
         mChatList = findViewById(R.id.chatList);
         mChatList.setNestedScrollingEnabled(false);
         mChatList.setHasFixedSize(false);
@@ -98,7 +106,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     private void getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS,Manifest.permission.READ_CONTACTS},1);
+            requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CONTACTS}, 1);
         }
     }
 }
