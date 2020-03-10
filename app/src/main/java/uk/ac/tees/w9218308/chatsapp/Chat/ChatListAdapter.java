@@ -1,4 +1,4 @@
-package uk.ac.tees.w9218308.chatsapp;
+package uk.ac.tees.w9218308.chatsapp.Chat;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
+
+import uk.ac.tees.w9218308.chatsapp.R;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder> {
 

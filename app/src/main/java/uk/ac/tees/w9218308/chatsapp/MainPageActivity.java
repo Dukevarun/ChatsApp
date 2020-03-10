@@ -21,6 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import uk.ac.tees.w9218308.chatsapp.Chat.ChatListAdapter;
+import uk.ac.tees.w9218308.chatsapp.Chat.ChatObject;
+
 public class MainPageActivity extends AppCompatActivity {
 
     private RecyclerView mChatList;

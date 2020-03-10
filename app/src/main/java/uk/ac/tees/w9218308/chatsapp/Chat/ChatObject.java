@@ -1,4 +1,4 @@
-package uk.ac.tees.w9218308.chatsapp;
+package uk.ac.tees.w9218308.chatsapp.Chat;
 
 public class ChatObject {
     private String chatId;

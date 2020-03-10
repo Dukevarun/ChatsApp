@@ -19,6 +19,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import uk.ac.tees.w9218308.chatsapp.User.UserListAdapter;
+import uk.ac.tees.w9218308.chatsapp.User.UserObject;
+import uk.ac.tees.w9218308.chatsapp.Utils.CountryToPhonePrefix;
+
 public class FindUserActivity extends AppCompatActivity {
 
     private RecyclerView mUserList;
