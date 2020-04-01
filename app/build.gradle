@@ -1,3 +1,17 @@
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.4, 0.99.99]'
+    }
+}
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+repositories {
+    maven { url 'https://maven.google.com' }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
@@ -11,6 +25,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                onesignal_app_id: 'c6082f47-72c6-44e2-8baf-d28441f0f228',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
     }
     buildTypes {
         release {
@@ -28,6 +47,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
+    implementation 'com.onesignal:OneSignal:[3.13.0, 3.99.99]'
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
