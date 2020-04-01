@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import uk.ac.tees.w9218308.chatsapp.Chat.ChatListAdapter;
 import uk.ac.tees.w9218308.chatsapp.Chat.ChatObject;
+import uk.ac.tees.w9218308.chatsapp.Utils.SendNotification;
 
 public class MainPageActivity extends AppCompatActivity {
 
@@ -48,6 +49,8 @@ public class MainPageActivity extends AppCompatActivity {
             }
         });
         OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
+
+        new SendNotification("message 1","heading 1", null);
 
         Fresco.initialize(this);
 
