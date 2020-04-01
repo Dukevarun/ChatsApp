@@ -3,7 +3,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/'}
     }
     dependencies {
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.4, 0.99.99]'
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.6'
     }
 }
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
-    implementation 'com.onesignal:OneSignal:[3.13.0, 3.99.99]'
+    implementation 'com.onesignal:OneSignal:3.13.0'
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'

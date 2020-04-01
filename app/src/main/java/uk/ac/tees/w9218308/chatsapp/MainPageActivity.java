@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,16 @@ public class MainPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
+        OneSignal.startInit(this).init();
+        OneSignal.setSubscription(true);
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+            @Override
+            public void idsAvailable(String userId, String registrationId) {
+                FirebaseDatabase.getInstance().getReference().child("user").child(FirebaseAuth.getInstance().getUid()).child("notificationKey").setValue(userId);
+            }
+        });
+        OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
+
         Fresco.initialize(this);
 
         Button mFindUser = findViewById(R.id.findUser);
@@ -53,6 +64,7 @@ public class MainPageActivity extends AppCompatActivity {
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                OneSignal.setSubscription(false);
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
