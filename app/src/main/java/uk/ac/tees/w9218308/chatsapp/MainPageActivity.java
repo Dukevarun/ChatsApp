@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import uk.ac.tees.w9218308.chatsapp.Chat.ChatListAdapter;
 import uk.ac.tees.w9218308.chatsapp.Chat.ChatObject;
+import uk.ac.tees.w9218308.chatsapp.User.UserObject;
 import uk.ac.tees.w9218308.chatsapp.Utils.SendNotification;
 
 public class MainPageActivity extends AppCompatActivity {
@@ -50,7 +51,7 @@ public class MainPageActivity extends AppCompatActivity {
         });
         OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
 
-        new SendNotification("message 1","heading 1", null);
+        new SendNotification("message 1", "heading 1", null);
 
         Fresco.initialize(this);
 
@@ -99,9 +100,65 @@ public class MainPageActivity extends AppCompatActivity {
                         if (exists)
                             continue;
                         chatList.add(mChat);
-                        mChatListAdapter.notifyDataSetChanged();
+                        getChatData(mChat.getChatId());
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getChatData(String chatId) {
+        DatabaseReference mChatDB = FirebaseDatabase.getInstance().getReference().child("chat").child(chatId).child("info");
+        mChatDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String chatId = "";
+                    if (dataSnapshot.child("id").getValue() != null)
+                        chatId = dataSnapshot.child("id").getValue().toString();
+
+                    for (DataSnapshot userSnapshot : dataSnapshot.child("users").getChildren()) {
+                        for (ChatObject mChat : chatList) {
+                            if (mChat.getChatId().equals(chatId)) {
+                                UserObject mUser = new UserObject(userSnapshot.getKey());
+                                mChat.addUserToArrayList(mUser);
+                                getUserData(mUser);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getUserData(UserObject mUser) {
+        DatabaseReference mUserDb = FirebaseDatabase.getInstance().getReference().child("user").child(mUser.getUid());
+        mUserDb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserObject mUser = new UserObject(dataSnapshot.getKey());
+
+                if (dataSnapshot.child("notificationKey").getValue() != null)
+                    mUser.setNotificationKey(dataSnapshot.child("notificationKey").getValue().toString());
+
+                for (ChatObject mChat : chatList) {
+                    for (UserObject mUserIterator : mChat.getUserObjectArrayList()) {
+                        if (mUserIterator.getUid().equals(mUser.getUid())){
+                            mUserIterator.setNotificationKey(mUser.getNotificationKey());
+                        }
+                    }
+                }
+                mChatListAdapter.notifyDataSetChanged();
             }
 
             @Override

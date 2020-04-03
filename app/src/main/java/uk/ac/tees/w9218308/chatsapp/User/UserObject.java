@@ -2,7 +2,11 @@ package uk.ac.tees.w9218308.chatsapp.User;
 
 public class UserObject {
 
-    private String uid, name, phone;
+    private String uid, name, phone, notificationKey;
+
+    public UserObject(String uid) {
+        this.uid = uid;
+    }
 
     public UserObject(String uid, String name, String phone) {
         this.uid = uid;
@@ -20,6 +24,14 @@ public class UserObject {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getNotificationKey() {
+        return notificationKey;
+    }
+
+    public void setNotificationKey(String notificationKey) {
+        this.notificationKey = notificationKey;
     }
 
     public void setName(String name) {
