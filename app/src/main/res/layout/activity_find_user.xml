@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".FindUserActivity">
 
+    <Button
+        android:id="@+id/create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_create_chatroom" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userList"
         android:layout_width="match_parent"
