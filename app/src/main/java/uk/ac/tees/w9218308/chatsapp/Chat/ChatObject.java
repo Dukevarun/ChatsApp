@@ -1,10 +1,11 @@
 package uk.ac.tees.w9218308.chatsapp.Chat;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import uk.ac.tees.w9218308.chatsapp.User.UserObject;
 
-public class ChatObject {
+public class ChatObject implements Serializable {
 
     private String chatId;
 

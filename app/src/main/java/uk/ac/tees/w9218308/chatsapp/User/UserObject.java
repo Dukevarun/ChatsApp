@@ -1,6 +1,8 @@
 package uk.ac.tees.w9218308.chatsapp.User;
 
-public class UserObject {
+import java.io.Serializable;
+
+public class UserObject implements Serializable {
 
     private String uid, name, phone, notificationKey;
 

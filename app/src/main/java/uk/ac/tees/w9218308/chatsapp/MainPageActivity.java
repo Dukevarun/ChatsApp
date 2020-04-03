@@ -51,8 +51,6 @@ public class MainPageActivity extends AppCompatActivity {
         });
         OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
 
-        new SendNotification("message 1", "heading 1", null);
-
         Fresco.initialize(this);
 
         Button mFindUser = findViewById(R.id.findUser);
