@@ -40,7 +40,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         holder.mMessage.setText(messageList.get(position).getMessage());
         holder.mSender.setText(messageList.get(position).getSenderId());
 
-        if(messageList.get(holder.getAdapterPosition()).getMediaUrlList().isEmpty())
+        if (messageList.get(holder.getAdapterPosition()).getMediaUrlList().isEmpty())
             holder.mViewMedia.setVisibility(View.GONE);
 
         holder.mViewMedia.setOnClickListener(new View.OnClickListener() {
