@@ -13,4 +13,6 @@
     <string name="add_media">Add Media</string>
     <string name="view_media">View Media</string>
     <string name="button_create_chatroom">Create Chat Room</string>
+    <string name="login_description">ChatsApp will send an SMS message to verify your phone number. Enter your Country code and phone number</string>
+    <string name="login_title">Verify Your Phone Number</string>
 </resources>
