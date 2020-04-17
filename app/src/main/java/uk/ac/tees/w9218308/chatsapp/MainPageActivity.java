@@ -2,17 +2,23 @@ package uk.ac.tees.w9218308.chatsapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +39,10 @@ public class MainPageActivity extends AppCompatActivity {
     private RecyclerView mChatList;
     private RecyclerView.Adapter mChatListAdapter;
     private RecyclerView.LayoutManager mChatListLayoutManager;
+    private Toolbar mToolbar;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private TabsAccessAdapter mTabsAccessAdapter;
 
     ArrayList<ChatObject> chatList;
 
@@ -53,31 +63,42 @@ public class MainPageActivity extends AppCompatActivity {
 
         Fresco.initialize(this);
 
-        Button mFindUser = findViewById(R.id.findUser);
-        Button mLogout = findViewById(R.id.logout);
+        mToolbar = findViewById(R.id.mainToolBar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("ChatsApp");
 
-        mFindUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), FindUserActivity.class));
-            }
-        });
+//        Button mFindUser = findViewById(R.id.findUser);
+//        Button mLogout = findViewById(R.id.logout);
 
-        mLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OneSignal.setSubscription(false);
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-                return;
-            }
-        });
+        mViewPager = findViewById(R.id.mainTabPager);
+        mTabsAccessAdapter = new TabsAccessAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mViewPager.setAdapter(mTabsAccessAdapter);
+
+        mTabLayout = findViewById(R.id.mainTabs);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+//        mFindUser.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getApplicationContext(), FindUserActivity.class));
+//            }
+//        });
+//
+//        mLogout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                OneSignal.setSubscription(false);
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                finish();
+//                return;
+//            }
+//        });
 
         getPermissions();
-        initializeRecyclerView();
+//        initializeRecyclerView();
         getUserChatList();
     }
 
@@ -151,7 +172,7 @@ public class MainPageActivity extends AppCompatActivity {
 
                 for (ChatObject mChat : chatList) {
                     for (UserObject mUserIterator : mChat.getUserObjectArrayList()) {
-                        if (mUserIterator.getUid().equals(mUser.getUid())){
+                        if (mUserIterator.getUid().equals(mUser.getUid())) {
                             mUserIterator.setNotificationKey(mUser.getNotificationKey());
                         }
                     }
@@ -166,15 +187,39 @@ public class MainPageActivity extends AppCompatActivity {
         });
     }
 
-    private void initializeRecyclerView() {
-        chatList = new ArrayList<>();
-        mChatList = findViewById(R.id.chatList);
-        mChatList.setNestedScrollingEnabled(false);
-        mChatList.setHasFixedSize(false);
-        mChatListLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        mChatList.setLayoutManager(mChatListLayoutManager);
-        mChatListAdapter = new ChatListAdapter(chatList);
-        mChatList.setAdapter(mChatListAdapter);
+//    private void initializeRecyclerView() {
+//        chatList = new ArrayList<>();
+//        mChatList = findViewById(R.id.chatList);
+//        mChatList.setNestedScrollingEnabled(false);
+//        mChatList.setHasFixedSize(false);
+//        mChatListLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+//        mChatList.setLayoutManager(mChatListLayoutManager);
+//        mChatListAdapter = new ChatListAdapter(chatList);
+//        mChatList.setAdapter(mChatListAdapter);
+//    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.option_editProfile) {
+
+        }
+        if (item.getItemId() == R.id.option_logout) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+        return true;
     }
 
     private void getPermissions() {

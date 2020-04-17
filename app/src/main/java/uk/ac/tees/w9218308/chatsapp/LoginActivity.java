@@ -3,11 +3,14 @@ package uk.ac.tees.w9218308.chatsapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,25 +37,27 @@ public class LoginActivity extends AppCompatActivity {
     private Button mSend;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String mVerificationId;
+    private ProgressDialog loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(this);
 
-        userIsLoggedIn();
+        initialiseFields();
 
-        mPhoneNumber = findViewById(R.id.phoneNumber);
-        mCode = findViewById(R.id.code);
-        mSend = findViewById(R.id.send);
+        userIsLoggedIn();
 
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mVerificationId != null) {
+                if (TextUtils.isEmpty(mPhoneNumber.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "Please enter phone number with country code", Toast.LENGTH_SHORT).show();
+                }
+                if (mVerificationId != null)
                     verifyPhoneNumberWithCode();
-                } else
+                else
                     startPhoneNumberVerification();
             }
         });
@@ -65,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-
+                Toast.makeText(LoginActivity.this, "Enter valid phone number with country code", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -73,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                 super.onCodeSent(verificationId, forceResendingToken);
                 mVerificationId = verificationId;
                 mSend.setText("Verify Code");
+                mCode.setVisibility(View.VISIBLE);
+                Toast.makeText(LoginActivity.this, "Code sent", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -129,5 +136,13 @@ public class LoginActivity extends AppCompatActivity {
                 TimeUnit.SECONDS,
                 this,
                 mCallBacks);
+    }
+
+    private void initialiseFields() {
+        mPhoneNumber = findViewById(R.id.phoneNumber);
+        mSend = findViewById(R.id.send);
+        mCode = findViewById(R.id.code);
+        mCode.setVisibility(View.INVISIBLE);
+        loadingBar = new ProgressDialog(this);
     }
 }

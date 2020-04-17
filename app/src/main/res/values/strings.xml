@@ -2,8 +2,8 @@
     <string name="app_name">ChatsApp</string>
     <string name="phoneNumber">Enter Phone Number</string>
     <string name="code">Enter Code</string>
-    <string name="button_send">Send Verification Code</string>
-    <string name="button_logout">Logout</string>
+    <string name="button_send">Send Code</string>
+    <string name="logout">Logout</string>
     <string name="find_users">Find User</string>
     <string name="user_name">Name</string>
     <string name="user_phone">Phone</string>
@@ -15,4 +15,8 @@
     <string name="button_create_chatroom">Create Chat Room</string>
     <string name="login_description">ChatsApp will send an SMS message to verify your phone number. Enter your Country code and phone number</string>
     <string name="login_title">Verify Your Phone Number</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_profile">Edit Profie</string>
 </resources>
