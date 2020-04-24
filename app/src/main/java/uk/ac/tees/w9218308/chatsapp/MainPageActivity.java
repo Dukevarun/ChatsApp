@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -43,6 +44,7 @@ public class MainPageActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TabsAccessAdapter mTabsAccessAdapter;
+    private FloatingActionButton mFindUser;
 
 //    ArrayList<ChatObject> chatList;
 
@@ -67,12 +69,20 @@ public class MainPageActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("ChatsApp");
 
-        mViewPager = findViewById(R.id.mainTabPager);
+        mViewPager = findViewById(R.id.tabPager);
         mTabsAccessAdapter = new TabsAccessAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(mTabsAccessAdapter);
 
         mTabLayout = findViewById(R.id.mainTabs);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mFindUser = findViewById(R.id.findUsers);
+        mFindUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), FindUserActivity.class));
+            }
+        });
 
 //        getPermissions();
 //        initializeRecyclerView();
@@ -188,9 +198,7 @@ public class MainPageActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.option_editProfile) {
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            finish();
         }
         if (item.getItemId() == R.id.option_logout) {
             FirebaseAuth.getInstance().signOut();

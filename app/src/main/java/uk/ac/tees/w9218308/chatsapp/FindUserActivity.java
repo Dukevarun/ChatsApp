@@ -2,6 +2,7 @@ package uk.ac.tees.w9218308.chatsapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ import uk.ac.tees.w9218308.chatsapp.Utils.CountryToPhonePrefix;
 
 public class FindUserActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
     private RecyclerView mUserList;
     private RecyclerView.Adapter mUserListAdapter;
     private RecyclerView.LayoutManager mUserListLayoutManager;
@@ -39,16 +41,22 @@ public class FindUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_user);
 
+        mToolbar = findViewById(R.id.find_friends_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Select Contact");
+
         contactList = new ArrayList<>();
         userList = new ArrayList<>();
 
-        Button mCreate = findViewById(R.id.create);
-        mCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createChat();
-            }
-        });
+//        Button mCreate = findViewById(R.id.create);
+//        mCreate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                createChat();
+//            }
+//        });
 
         initializeRecyclerView();
         getContactList();
@@ -83,7 +91,7 @@ public class FindUserActivity extends AppCompatActivity {
         mUserList = findViewById(R.id.userList);
         mUserList.setNestedScrollingEnabled(false);
         mUserList.setHasFixedSize(false);
-        mUserListLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        mUserListLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
         mUserList.setLayoutManager(mUserListLayoutManager);
         mUserListAdapter = new UserListAdapter(userList);
         mUserList.setAdapter(mUserListAdapter);

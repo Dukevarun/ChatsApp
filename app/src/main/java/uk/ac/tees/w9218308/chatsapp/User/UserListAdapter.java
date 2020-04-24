@@ -57,6 +57,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         return userList.size();
     }
 
+
     class UserListViewHolder extends RecyclerView.ViewHolder {
 
         TextView mName, mPhone;
@@ -67,7 +68,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
             super(view);
 
             mName = view.findViewById(R.id.name);
-            mPhone = view.findViewById(R.id.phone);
+//            mPhone = view.findViewById(R.id.phone);
             mLayout = view.findViewById(R.id.layout);
             mAdd = view.findViewById(R.id.add);
         }
