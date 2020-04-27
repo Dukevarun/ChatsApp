@@ -13,7 +13,7 @@
     <string name="chat_title">Title</string>
     <string name="message_hint">Type your message here</string>
     <string name="button_message">Send</string>
-    <string name="button_media">Add Media</string>
+    <string name="button_media">Media</string>
     <string name="items_selected">0 items selected</string>
     <string name="option_create">Create</string>
     <string name="profile_username">Enter a Username</string>

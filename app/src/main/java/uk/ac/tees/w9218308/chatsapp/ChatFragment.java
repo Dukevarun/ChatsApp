@@ -61,7 +61,7 @@ public class ChatFragment extends Fragment {
         mChatList.setHasFixedSize(false);
         mChatListLayoutManager = new LinearLayoutManager(getActivity());
         mChatList.setLayoutManager(mChatListLayoutManager);
-        mChatListAdapter = new ChatListAdapter(getContext(),chatList);
+        mChatListAdapter = new ChatListAdapter(getContext(), chatList);
         mChatList.setAdapter(mChatListAdapter);
     }
 
@@ -87,9 +87,8 @@ public class ChatFragment extends Fragment {
                         ChatObject mChat = new ChatObject(childSnapShot.getKey());
                         boolean exists = false;
                         for (ChatObject mChatIterator : chatList) {
-                            if (mChatIterator.getChatId().equals(mChat.getChatId())) {
+                            if (mChatIterator.getChatId().equals(mChat.getChatId()))
                                 exists = true;
-                            }
                         }
                         if (exists)
                             continue;
@@ -114,16 +113,15 @@ public class ChatFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     String chatId = "";
 
-                    if (dataSnapshot.child("id").getValue() != null) {
+                    if (dataSnapshot.child("id").getValue() != null)
                         chatId = dataSnapshot.child("id").getValue().toString();
 
-                        for (DataSnapshot userSnapshot : dataSnapshot.child("users").getChildren()) {
-                            for (ChatObject mChat : chatList) {
-                                if (mChat.getChatId().equals(chatId)) {
-                                    UserObject mUser = new UserObject(userSnapshot.getKey());
-                                    mChat.addUserToArrayList(mUser);
-                                    getUserData(mUser);
-                                }
+                    for (DataSnapshot userSnapshot : dataSnapshot.child("users").getChildren()) {
+                        for (ChatObject mChat : chatList) {
+                            if (mChat.getChatId().equals(chatId)) {
+                                UserObject mUser = new UserObject(userSnapshot.getKey());
+                                mChat.addUserToArrayList(mUser);
+                                getUserData(mUser);
                             }
                         }
                     }

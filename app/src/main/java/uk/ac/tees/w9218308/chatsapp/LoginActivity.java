@@ -99,8 +99,8 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!dataSnapshot.exists()) {
                                     Map<String, Object> userMap = new HashMap<>();
                                     userMap.put("phone", user.getPhoneNumber());
-                                    userMap.put("name", user.getPhoneNumber());
-                                    userMap.put("status", user.getPhoneNumber());
+                                    userMap.put("name","");
+                                    userMap.put("status","");
                                     /*userMap.put("image", user.getPhoneNumber());*/
                                     mUserDB.updateChildren(userMap);
                                 }

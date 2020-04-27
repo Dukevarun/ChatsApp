@@ -80,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void retrieveUserInfo() {
 
         String name = "", status = "", image = "";
+
         DatabaseReference userProfileDB = FirebaseDatabase.getInstance().getReference("user").child(currentUserId);
         userProfileDB.addValueEventListener(new ValueEventListener() {
             @Override
@@ -88,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
                     String name = dataSnapshot.child("name").getValue().toString();
                     String status = dataSnapshot.child("status").getValue().toString();
 //                    String image = dataSnapshot.child("image").getValue().toString();
+
 
                     pName.setText(name);
                     pStatus.setText(status);
