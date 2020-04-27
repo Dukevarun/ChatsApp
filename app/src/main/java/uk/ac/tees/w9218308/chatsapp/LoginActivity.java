@@ -6,11 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mSend;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String mVerificationId;
-    private ProgressDialog loadingBar;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +43,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(this);
 
-        initialiseFields();
+        mAuth = FirebaseAuth.getInstance();
 
         userIsLoggedIn();
+        initialiseFields();
 
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(mPhoneNumber.getText().toString())) {
-                    Toast.makeText(LoginActivity.this, "Please enter phone number with country code", Toast.LENGTH_SHORT).show();
-                }
                 if (mVerificationId != null)
                     verifyPhoneNumberWithCode();
                 else
@@ -64,37 +60,37 @@ public class LoginActivity extends AppCompatActivity {
 
         mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
-            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                signInWithPhoneAuthCredentials(phoneAuthCredential);
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
-            public void onVerificationFailed(FirebaseException e) {
-                Toast.makeText(LoginActivity.this, "Enter valid phone number with country code", Toast.LENGTH_SHORT).show();
+            public void onVerificationFailed(@NonNull FirebaseException e) {
+
             }
 
             @Override
-            public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                super.onCodeSent(verificationId, forceResendingToken);
-                mVerificationId = verificationId;
+            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                super.onCodeSent(s, forceResendingToken);
+                mVerificationId = s;
                 mSend.setText("Verify Code");
                 mCode.setVisibility(View.VISIBLE);
-                Toast.makeText(LoginActivity.this, "Code sent", Toast.LENGTH_SHORT).show();
             }
         };
     }
 
     private void verifyPhoneNumberWithCode() {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, mCode.getText().toString());
-        signInWithPhoneAuthCredentials(credential);
+        signInWithPhoneAuthCredential(credential);
     }
 
-    private void signInWithPhoneAuthCredentials(PhoneAuthCredential phoneAuthCredential) {
-        FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
+        mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    final FirebaseUser user = mAuth.getCurrentUser();
+
                     if (user != null) {
                         final DatabaseReference mUserDB = FirebaseDatabase.getInstance().getReference().child("user").child(user.getUid());
                         mUserDB.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -104,6 +100,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Map<String, Object> userMap = new HashMap<>();
                                     userMap.put("phone", user.getPhoneNumber());
                                     userMap.put("name", user.getPhoneNumber());
+                                    userMap.put("status", user.getPhoneNumber());
+                                    /*userMap.put("image", user.getPhoneNumber());*/
                                     mUserDB.updateChildren(userMap);
                                 }
                                 userIsLoggedIn();
@@ -121,11 +119,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void userIsLoggedIn() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
             finish();
-            return;
         }
     }
 
@@ -140,9 +137,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initialiseFields() {
         mPhoneNumber = findViewById(R.id.phoneNumber);
-        mSend = findViewById(R.id.send);
         mCode = findViewById(R.id.code);
         mCode.setVisibility(View.INVISIBLE);
-        loadingBar = new ProgressDialog(this);
+        mSend = findViewById(R.id.send);
     }
 }

@@ -1,10 +1,12 @@
 package uk.ac.tees.w9218308.chatsapp.Chat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,9 +20,11 @@ import uk.ac.tees.w9218308.chatsapp.R;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder> {
 
-    ArrayList<ChatObject> chatList;
+    private Context context;
+    private ArrayList<ChatObject> chatList;
 
-    public ChatListAdapter(ArrayList<ChatObject> chatList) {
+    public ChatListAdapter(Context context, ArrayList<ChatObject> chatList) {
+        this.context = context;
         this.chatList = chatList;
     }
 
@@ -38,13 +42,16 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     @Override
     public void onBindViewHolder(@NonNull final ChatListViewHolder holder, final int position) {
         holder.mTitle.setText(chatList.get(position).getChatId());
+        /*holder.mPhone.setText(chatList.get(position).getPhone());
+        holder.mStatus.setText(chatList.get(position).getStatus());
+        holder.mImage.setImageBitmap(chatList.get(position).getImage());*/
 
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("chatObject", chatList.get(holder.getAdapterPosition()));
-                v.getContext().startActivity(intent);
+                context.startActivity(intent);
             }
         });
     }
@@ -55,16 +62,19 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     }
 
 
-    public class ChatListViewHolder extends RecyclerView.ViewHolder {
+    class ChatListViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mTitle;
-        public LinearLayout mLayout;
+        TextView mTitle/*, mPhone, mStatus*/;
+        //        public ImageView mImage;
+        LinearLayout mLayout;
 
-        public ChatListViewHolder(View view) {
+        ChatListViewHolder(View view) {
             super(view);
-
-            mTitle = view.findViewById(R.id.title);
-            mLayout = view.findViewById(R.id.layout);
+            mTitle = view.findViewById(R.id.chatTitle);
+            /*mPhone = view.findViewById(R.id.phone);
+            mStatus = view.findViewById(R.id.status);
+            mImage = view.findViewById(R.id.image);*/
+            mLayout = view.findViewById(R.id.userLayout);
         }
     }
 }

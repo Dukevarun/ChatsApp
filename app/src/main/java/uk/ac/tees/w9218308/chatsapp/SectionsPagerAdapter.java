@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class TabsAccessAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public TabsAccessAdapter(@NonNull FragmentManager fm, int behavior) {
+    public SectionsPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 
@@ -17,9 +17,11 @@ public class TabsAccessAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                ChatsFragment chatsFragment = new ChatsFragment();
-                return chatsFragment;
-
+                CameraFragment cameraFragment = new CameraFragment();
+                return cameraFragment;
+            case 1:
+                ChatFragment chatFragment = new ChatFragment();
+                return chatFragment;
             default:
                 return null;
         }
@@ -27,7 +29,7 @@ public class TabsAccessAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 
     @Nullable
@@ -35,8 +37,9 @@ public class TabsAccessAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
+                return "Camera";
+            case 1:
                 return "Chats";
-
             default:
                 return null;
         }

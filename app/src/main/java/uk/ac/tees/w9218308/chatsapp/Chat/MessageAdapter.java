@@ -18,10 +18,16 @@ import uk.ac.tees.w9218308.chatsapp.R;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
+    //    Context context;
     ArrayList<MessageObject> messageList;
 
-    public MessageAdapter(ArrayList<MessageObject> messageList) {
-        this.messageList = messageList;
+    /*public MessageAdapter(Context context, ArrayList<ChatObject> message) {
+        this.context = context;
+        this.Message = Message;
+    }*/
+
+    public MessageAdapter(ArrayList<MessageObject> message) {
+        this.messageList = message;
     }
 
     @NonNull
@@ -59,16 +65,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
+    class MessageViewHolder extends RecyclerView.ViewHolder {
+
         TextView mMessage, mSender;
-        Button mViewMedia;
         LinearLayout mLayout;
+        Button mViewMedia;
 
         MessageViewHolder(View view) {
             super(view);
-            mLayout = view.findViewById(R.id.layout);
-            mMessage = view.findViewById(R.id.message);
+            mMessage = view.findViewById(R.id.messageList);
             mSender = view.findViewById(R.id.sender);
+            mLayout = view.findViewById(R.id.userLayout);
             mViewMedia = view.findViewById(R.id.viewMedia);
         }
     }

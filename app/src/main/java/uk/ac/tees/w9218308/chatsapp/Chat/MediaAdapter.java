@@ -1,7 +1,6 @@
 package uk.ac.tees.w9218308.chatsapp.Chat;
 
 import android.content.Context;
-import android.media.Image;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
     @NonNull
     @Override
     public MediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_media,null,false);
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_media, null, false);
         MediaViewHolder mediaViewHolder = new MediaViewHolder(layoutView);
         return mediaViewHolder;
     }
@@ -52,7 +51,9 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
         public MediaViewHolder(@NonNull View itemView) {
             super(itemView);
+
             mMedia = itemView.findViewById(R.id.media);
         }
     }
+
 }

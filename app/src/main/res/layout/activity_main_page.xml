@@ -7,24 +7,29 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <include
             android:id="@+id/mainToolBar"
-            layout="@layout/app_bar_layout"
+            layout="@layout/appbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/mainTabs"
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:tabMode="fixed" />
-
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/tabPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/findUsers"
@@ -36,8 +41,4 @@
         android:tint="@android:color/white"
         app:backgroundTint="@color/colorPrimary" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/tabPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

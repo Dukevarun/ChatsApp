@@ -1,25 +1,21 @@
 <resources>
     <string name="app_name">ChatsApp</string>
-    <string name="phoneNumber">Enter Phone Number</string>
+    <string name="login_title">Verify Your Phone Number</string>
+    <string name="login_description">ChatsApp will send an SMS message to verify your phone number. Enter your Country code and phone number</string>
     <string name="code">Enter Code</string>
     <string name="button_send">Send Code</string>
+    <string name="phoneNumber">Enter Phone Number</string>
     <string name="logout">Logout</string>
-    <string name="find_users">Find User</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="user_name">Name</string>
     <string name="user_phone">Phone</string>
+    <string name="user_status">Status</string>
     <string name="chat_title">Title</string>
-    <string name="chat_message">Message...</string>
-    <string name="button_message_send">Send</string>
-    <string name="add_media">Add Media</string>
-    <string name="view_media">View Media</string>
-    <string name="button_create_chatroom">Create Chat Room</string>
-    <string name="login_description">ChatsApp will send an SMS message to verify your phone number. Enter your Country code and phone number</string>
-    <string name="login_title">Verify Your Phone Number</string>
+    <string name="message_hint">Type your message here</string>
+    <string name="button_message">Send</string>
+    <string name="button_media">Add Media</string>
+    <string name="items_selected">0 items selected</string>
+    <string name="option_create">Create</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="edit_profile">Edit Profie</string>
-    <string name="profile_username">UserName</string>
-    <string name="profile_status">Status</string>
-    <string name="button_update_profile">Update Profile</string>
 </resources>
