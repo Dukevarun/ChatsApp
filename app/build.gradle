@@ -21,7 +21,7 @@ android {
     defaultConfig {
         applicationId "uk.ac.tees.w9218308.chatsapp"
         manifestPlaceholders = [
-                onesignal_app_id : 'c6082f47-72c6-44e2-8baf-d28441f0f228',
+                onesignal_app_id               : 'c6082f47-72c6-44e2-8baf-d28441f0f228',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]

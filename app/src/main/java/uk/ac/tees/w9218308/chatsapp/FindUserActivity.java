@@ -8,17 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -44,7 +37,7 @@ public class FindUserActivity extends AppCompatActivity{
 
     ArrayList<UserObject> contactList, userList;
 
-//    Toolbar mToolbar;
+    Toolbar mToolbar;
 
 //    public boolean is_in_action_mode = false;
 //    TextView counterTextView;
@@ -55,14 +48,33 @@ public class FindUserActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_user);
 
+        initializeFields();
+        initializeRecyclerView();
+        getContactList();
+    }
+
+    private void initializeFields() {
         contactList = new ArrayList<>();
         userList = new ArrayList<>();
+
+        mToolbar = findViewById(R.id.findUserToolBar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Select Contact");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         /*mToolbar = findViewById(R.id.recyclerViewBar);
         setSupportActionBar(mToolbar);
 
         counterTextView = findViewById(R.id.counterText);
         counterTextView.setVisibility(View.GONE);*/
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
+            }
+        });
 
         Button mCreate = findViewById(R.id.create);
         mCreate.setOnClickListener(new View.OnClickListener() {
@@ -71,22 +83,6 @@ public class FindUserActivity extends AppCompatActivity{
                 createChat();
             }
         });
-
-        /*Toolbar mToolBar = findViewById(R.id.findUserToolBar);
-        setSupportActionBar(mToolBar);
-        getSupportActionBar().setTitle("Select Contact");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-
-        /*mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
-            }
-        });*/
-
-        initializeRecyclerView();
-        getContactList();
     }
 
     public void createChat() {
@@ -127,8 +123,8 @@ public class FindUserActivity extends AppCompatActivity{
         while (phones.moveToNext()) {
             String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phone = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            String status = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STATUS));
-            /*String image = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+            /*String status = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STATUS));
+            String image = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
 
             Bitmap bp = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                     R.drawable.profile_image);
@@ -151,7 +147,7 @@ public class FindUserActivity extends AppCompatActivity{
             if (!String.valueOf(phone.charAt(0)).equals("+"))
                 phone = ISOPrefix + phone;
 
-            UserObject mContact = new UserObject("", name, phone, status/*, bp*/);
+            UserObject mContact = new UserObject("", name, phone, ""/*, bp*/);
             contactList.add(mContact);
             getUserDetails(mContact);
         }

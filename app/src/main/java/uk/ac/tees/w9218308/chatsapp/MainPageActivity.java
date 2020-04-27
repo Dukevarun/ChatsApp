@@ -87,6 +87,9 @@ public class MainPageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.option_editProfile) {
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        }
         if (item.getItemId() == R.id.option_logout) {
             OneSignal.setSubscription(false);
             mAuth.signOut();

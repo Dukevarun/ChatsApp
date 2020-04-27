@@ -23,13 +23,10 @@ public class UserObject implements Serializable {
         this.status = status;
     }
 
-    /*public UserObject(String uid, String name, String phone, String status, Bitmap image) {
-        this.uid = uid;
+    public UserObject(String name, String status) {
         this.name = name;
-        this.phone = phone;
         this.status = status;
-        this.image = image;
-    }*/
+    }
 
 
     //Getters
