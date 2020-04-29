@@ -1,6 +1,7 @@
 package uk.ac.tees.w9218308.chatsapp.User;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -20,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import uk.ac.tees.w9218308.chatsapp.ChatActivity;
 import uk.ac.tees.w9218308.chatsapp.FindUserActivity;
 import uk.ac.tees.w9218308.chatsapp.R;
 
@@ -40,30 +44,22 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutView.setLayoutParams(lp);
 
-        UserListViewHolder rcv = new UserListViewHolder(layoutView);
-        return rcv;
+        return new UserListViewHolder(layoutView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final UserListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final UserListViewHolder holder, final int position) {
         holder.mName.setText(userList.get(position).getName());
-        holder.mPhone.setText(userList.get(position).getPhone());
         holder.mStatus.setText(userList.get(position).getStatus());
-        holder.mImage.setImageBitmap(userList.get(position).getImage());
+        if (userList.get(position).getImageUrl().equals("default"))
+            holder.mImage.setImageResource(R.drawable.profile_image);
+        else
+            Glide.with(context).load(userList.get(position).getImageUrl()).into(holder.mImage);
 
-        /*if (!findUserActivity.is_in_action_mode) {
-            holder.mAdd.setVisibility(View.GONE);
-        } else {
-            holder.mAdd.setVisibility(View.VISIBLE);
-            holder.mAdd.setChecked(false);
-        }
-
-        holder.mLayout.setOnLongClickListener();*/
-
-        holder.mAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                userList.get(holder.getAdapterPosition()).setSelected(isChecked);
+            public void onClick(View v) {
+                createChat();
             }
         });
     }
@@ -73,41 +69,47 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         return userList.size();
     }
 
-    /*public void createChat(int position) {
+    public void createChat() {
         String key = FirebaseDatabase.getInstance().getReference().child("chat").push().getKey();
+
+        DatabaseReference chatInfoDB = FirebaseDatabase.getInstance().getReference().child("chat").child(key).child("info");
+        DatabaseReference userDB = FirebaseDatabase.getInstance().getReference().child("user");
 
         HashMap newChatMap = new HashMap();
         newChatMap.put("id", key);
         newChatMap.put("users/" + FirebaseAuth.getInstance().getUid(), true);
-        newChatMap.put("users/" + userList.get(position).getUid(), true);
 
-        DatabaseReference chatInfoDB = FirebaseDatabase.getInstance().getReference().child("chat").child(key).child("info");
-        chatInfoDB.updateChildren(newChatMap);
+        boolean validChat = false;
+        for (UserObject mUser : userList) {
+            if (mUser.getSelected()) {
+                validChat = true;
+                newChatMap.put("users/" + mUser.getUid(), true);
+                userDB.child(mUser.getUid()).child("chat").child(key).setValue(true);
+            }
+        }
 
-        DatabaseReference userDB = FirebaseDatabase.getInstance().getReference().child("user");
-        userDB.child(FirebaseAuth.getInstance().getUid()).child("chat").child(key).setValue(true);
-        userDB.child(userList.get(position).getUid()).child("chat").child(key).setValue(true);
-    }*/
+        if (validChat) {
+            chatInfoDB.updateChildren(newChatMap);
+            userDB.child(FirebaseAuth.getInstance().getUid()).child("chat").child(key).setValue(true);
+            /*Intent intent = new Intent(context, ChatActivity.class);
+            intent.putExtra("userObject", userList.get(position));
+            context.startActivity(intent);*/
+        }
+    }
 
 
     class UserListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mName, mPhone, mStatus;
-        ImageView mImage;
+        TextView mName, mStatus;
+        CircleImageView mImage;
         LinearLayout mLayout;
-        CheckBox mAdd;
-        FindUserActivity findUserActivity;
 
         UserListViewHolder(View view) {
             super(view);
             mName = view.findViewById(R.id.name);
-            mPhone = view.findViewById(R.id.phone);
             mStatus = view.findViewById(R.id.status);
             mImage = view.findViewById(R.id.image);
             mLayout = view.findViewById(R.id.userLayout);
-            mAdd = view.findViewById(R.id.add);
-//            this.findUserActivity = findUserActivity;
-//            mLayout.setOnLongClickListener(findUserActivity);
         }
     }
 }

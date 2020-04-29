@@ -29,7 +29,7 @@ import uk.ac.tees.w9218308.chatsapp.User.UserListAdapter;
 import uk.ac.tees.w9218308.chatsapp.User.UserObject;
 import uk.ac.tees.w9218308.chatsapp.Utils.CountryToPhonePrefix;
 
-public class FindUserActivity extends AppCompatActivity{
+public class FindUserActivity extends AppCompatActivity {
 
     private RecyclerView mUserList;
     private RecyclerView.Adapter mUserListAdapter;
@@ -39,53 +39,17 @@ public class FindUserActivity extends AppCompatActivity{
 
     Toolbar mToolbar;
 
-//    public boolean is_in_action_mode = false;
-//    TextView counterTextView;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_user);
 
         initializeFields();
-        initializeRecyclerView();
+        initializeUsers();
         getContactList();
     }
 
-    private void initializeFields() {
-        contactList = new ArrayList<>();
-        userList = new ArrayList<>();
-
-        mToolbar = findViewById(R.id.findUserToolBar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Select Contact");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        /*mToolbar = findViewById(R.id.recyclerViewBar);
-        setSupportActionBar(mToolbar);
-
-        counterTextView = findViewById(R.id.counterText);
-        counterTextView.setVisibility(View.GONE);*/
-
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
-            }
-        });
-
-        Button mCreate = findViewById(R.id.create);
-        mCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createChat();
-            }
-        });
-    }
-
-    public void createChat() {
+    /*public void createChat() {
         String key = FirebaseDatabase.getInstance().getReference().child("chat").push().getKey();
 
         DatabaseReference chatInfoDB = FirebaseDatabase.getInstance().getReference().child("chat").child(key).child("info");
@@ -108,7 +72,7 @@ public class FindUserActivity extends AppCompatActivity{
             chatInfoDB.updateChildren(newChatMap);
             userDB.child(FirebaseAuth.getInstance().getUid()).child("chat").child(key).setValue(true);
         }
-    }
+    }*/
 
     private void getContactList() {
 
@@ -123,21 +87,6 @@ public class FindUserActivity extends AppCompatActivity{
         while (phones.moveToNext()) {
             String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phone = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            /*String status = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STATUS));
-            String image = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
-
-            Bitmap bp = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                    R.drawable.profile_image);
-
-            if (image != null) {
-                try {
-                    bp = MediaStore.Images.Media
-                            .getBitmap(getApplicationContext().getContentResolver(),
-                                    Uri.parse(image));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
 
             phone = phone.replace(" ", "");
             phone = phone.replace("-", "");
@@ -147,20 +96,20 @@ public class FindUserActivity extends AppCompatActivity{
             if (!String.valueOf(phone.charAt(0)).equals("+"))
                 phone = ISOPrefix + phone;
 
-            UserObject mContact = new UserObject("", name, phone, ""/*, bp*/);
+            UserObject mContact = new UserObject("", name, phone, "", "");
             contactList.add(mContact);
             getUserDetails(mContact);
         }
     }
 
     private void getUserDetails(UserObject mContact) {
-        DatabaseReference mUserDB = FirebaseDatabase.getInstance().getReference().child("user");
+        final DatabaseReference mUserDB = FirebaseDatabase.getInstance().getReference().child("user");
         Query query = mUserDB.orderByChild("phone").equalTo(mContact.getPhone());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    String phone = "", name = "", status = "";
+                    String phone = "", name = "", status = "", image = "";
                     for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                         if (childSnapshot.child("phone").getValue() != null)
                             phone = childSnapshot.child("phone").getValue().toString();
@@ -168,10 +117,10 @@ public class FindUserActivity extends AppCompatActivity{
                             name = childSnapshot.child("name").getValue().toString();
                         if (childSnapshot.child("status").getValue() != null)
                             status = childSnapshot.child("status").getValue().toString();
-                        /*if (childSnapshot.child("image").getValue() != null)
-                            phone = childSnapshot.child("image").getValue().toString();*/
+                        if (childSnapshot.child("image").getValue() != null)
+                            image = childSnapshot.child("image").getValue().toString();
 
-                        UserObject mUser = new UserObject(childSnapshot.getKey(), name, phone, status/*, image*/);
+                        UserObject mUser = new UserObject(childSnapshot.getKey(), name, phone, status, image);
 
                         if (name.equals(phone)) {
                             for (UserObject mContactIterator : contactList) {
@@ -181,8 +130,8 @@ public class FindUserActivity extends AppCompatActivity{
                                 }
                             }
                         }
-
-                        userList.add(mUser);
+                        if (!childSnapshot.child("chat").exists())
+                            userList.add(mUser);
                         mUserListAdapter.notifyDataSetChanged();
                         return;
                     }
@@ -196,13 +145,6 @@ public class FindUserActivity extends AppCompatActivity{
         });
     }
 
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.);
-        return true;
-    }*/
-
     private String getCountryISO() {
         String iso = null;
         TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(getApplicationContext().TELEPHONY_SERVICE);
@@ -215,13 +157,38 @@ public class FindUserActivity extends AppCompatActivity{
         return CountryToPhonePrefix.getPhone(iso);
     }
 
-    private void initializeRecyclerView() {
+    private void initializeUsers() {
         mUserList = findViewById(R.id.userList);
         mUserList.setNestedScrollingEnabled(false);
         mUserList.setHasFixedSize(false);
         mUserListLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
         mUserList.setLayoutManager(mUserListLayoutManager);
-        mUserListAdapter = new UserListAdapter(getApplicationContext(),userList);
+        mUserListAdapter = new UserListAdapter(getApplicationContext(), userList);
         mUserList.setAdapter(mUserListAdapter);
+    }
+
+    private void initializeFields() {
+        contactList = new ArrayList<>();
+        userList = new ArrayList<>();
+
+        mToolbar = findViewById(R.id.findUserToolBar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Select Contact");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
+            }
+        });
+
+        /*Button mCreate = findViewById(R.id.create);
+        mCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createChat();
+            }
+        });*/
     }
 }

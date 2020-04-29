@@ -55,16 +55,6 @@ public class ChatFragment extends Fragment {
         return chatsView;
     }
 
-    private void initializeRecyclerView(View chatsView) {
-        mChatList = chatsView.findViewById(R.id.chatList);
-        mChatList.setNestedScrollingEnabled(false);
-        mChatList.setHasFixedSize(false);
-        mChatListLayoutManager = new LinearLayoutManager(getActivity());
-        mChatList.setLayoutManager(mChatListLayoutManager);
-        mChatListAdapter = new ChatListAdapter(getContext(), chatList);
-        mChatList.setAdapter(mChatListAdapter);
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,5 +152,15 @@ public class ChatFragment extends Fragment {
 
             }
         });
+    }
+
+    private void initializeRecyclerView(View chatsView) {
+        mChatList = chatsView.findViewById(R.id.chatList);
+        mChatList.setNestedScrollingEnabled(false);
+        mChatList.setHasFixedSize(false);
+        mChatListLayoutManager = new LinearLayoutManager(getActivity());
+        mChatList.setLayoutManager(mChatListLayoutManager);
+        mChatListAdapter = new ChatListAdapter(getContext(), chatList);
+        mChatList.setAdapter(mChatListAdapter);
     }
 }

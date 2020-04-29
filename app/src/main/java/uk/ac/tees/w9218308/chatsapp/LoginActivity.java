@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button mSend;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String mVerificationId;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(this);
 
-        mAuth = FirebaseAuth.getInstance();
-
-        userIsLoggedIn();
         initialiseFields();
 
         mSend.setOnClickListener(new View.OnClickListener() {
@@ -79,17 +75,24 @@ public class LoginActivity extends AppCompatActivity {
         };
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        userIsLoggedIn();
+    }
+
     private void verifyPhoneNumberWithCode() {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, mCode.getText().toString());
         signInWithPhoneAuthCredential(credential);
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
-        mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    final FirebaseUser user = mAuth.getCurrentUser();
+                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                     if (user != null) {
                         final DatabaseReference mUserDB = FirebaseDatabase.getInstance().getReference().child("user").child(user.getUid());
@@ -99,9 +102,9 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!dataSnapshot.exists()) {
                                     Map<String, Object> userMap = new HashMap<>();
                                     userMap.put("phone", user.getPhoneNumber());
-                                    userMap.put("name","");
-                                    userMap.put("status","");
-                                    /*userMap.put("image", user.getPhoneNumber());*/
+                                    userMap.put("name", "default");
+                                    userMap.put("status", "default");
+                                    userMap.put("image", "default");
                                     mUserDB.updateChildren(userMap);
                                 }
                                 userIsLoggedIn();
@@ -119,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void userIsLoggedIn() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
             finish();

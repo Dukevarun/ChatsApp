@@ -3,6 +3,7 @@ package uk.ac.tees.w9218308.chatsapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,14 +13,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -28,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import uk.ac.tees.w9218308.chatsapp.Chat.ChatObject;
 import uk.ac.tees.w9218308.chatsapp.Chat.MediaAdapter;
 import uk.ac.tees.w9218308.chatsapp.Chat.MessageAdapter;
@@ -43,20 +49,68 @@ public class ChatActivity extends AppCompatActivity {
 
     private ArrayList<MessageObject> messageList;
 
+    /*DatabaseReference mUserDB;*/
     DatabaseReference mChatMessageDB;
 
+    private UserObject mUserObject;
     private ChatObject mChatObject;
+
+    private CircleImageView profileImage;
+    private TextView username;
+
+//    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
+        Toolbar mToolbar = findViewById(R.id.chatBar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
+        profileImage = findViewById(R.id.profileImage);
+        username = findViewById(R.id.username);
+
+        /*intent = getIntent();
+        String userId = intent.getStringExtra("userId");*/
+
+        mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
+        mUserObject = (UserObject) getIntent().getSerializableExtra("userObject");
+
+        /*mUserDB = FirebaseDatabase.getInstance().getReference().child("user").child(mUserObject.getUid());*/
         mChatMessageDB = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
 
-        Button mSend = findViewById(R.id.send);
+
+        /*FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference mUserDB = FirebaseDatabase.getInstance().getReference("user").child(userId);*/
+
+        /*mUserDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserObject user = dataSnapshot.getValue(UserObject.class);
+                username.setText(user.getName());
+                if (user.getImageUrl().equals(""))
+                    profileImage.setImageResource(R.drawable.profile_image);
+                else
+                    Glide.with(getApplicationContext()).load(user.getImageUrl()).into(profileImage);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
+        /*Button mSend = findViewById(R.id.send);
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +124,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 openGallery();
             }
-        });
+        });*/
 
         initializeMessage();
         initializeMedia();
@@ -194,7 +248,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initializeMessage() {
         messageList = new ArrayList<>();
-        mChat = findViewById(R.id.messageList);
+//        mChat = findViewById(R.id.messageList);
         mChat.setNestedScrollingEnabled(false);
         mChat.setHasFixedSize(false);
         mChatLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
@@ -208,7 +262,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initializeMedia() {
         mediaUriList = new ArrayList<>();
-        mMedia = findViewById(R.id.mediaList);
+//        mMedia = findViewById(R.id.mediaList);
         mMedia.setNestedScrollingEnabled(false);
         mMedia.setHasFixedSize(false);
         mMediaLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);

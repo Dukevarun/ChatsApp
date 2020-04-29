@@ -35,8 +35,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutView.setLayoutParams(lp);
 
-        ChatListViewHolder rcv = new ChatListViewHolder(layoutView);
-        return rcv;
+        return new ChatListViewHolder(layoutView);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         holder.mTitle.setText(chatList.get(position).getChatId());
         /*holder.mPhone.setText(chatList.get(position).getPhone());
         holder.mStatus.setText(chatList.get(position).getStatus());
-        holder.mImage.setImageBitmap(chatList.get(position).getImage());*/
+        holder.mImage.setImageBitmap(chatList.get(position).getImageUrl());*/
 
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override

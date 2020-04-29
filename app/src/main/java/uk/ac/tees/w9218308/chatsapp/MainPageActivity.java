@@ -58,6 +58,8 @@ public class MainPageActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("ChatsApp");
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mSectionsPagerAdapter.addFragment(new CameraFragment(), "Camera");
+        mSectionsPagerAdapter.addFragment(new ChatFragment(), "Chats");
         mViewPager = findViewById(R.id.tabPager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -86,19 +88,24 @@ public class MainPageActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        super.onOptionsItemSelected(item);
-        if (item.getItemId() == R.id.option_editProfile) {
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        switch (item.getItemId()) {
+
+            case R.id.option_editProfile:
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                return true;
+
+            case R.id.option_logout:
+                OneSignal.setSubscription(false);
+                mAuth.signOut();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return false;
         }
-        if (item.getItemId() == R.id.option_logout) {
-            OneSignal.setSubscription(false);
-            mAuth.signOut();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        }
-        return true;
     }
 
     private void getPermissions() {

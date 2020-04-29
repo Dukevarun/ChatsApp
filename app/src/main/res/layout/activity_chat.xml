@@ -6,54 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/messageList"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/sendLayout">
+        android:layout_height="wrap_content">
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:id="@+id/sendLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mediaList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/chatBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme">
 
-            <EditText
-                android:id="@+id/message"
-                android:layout_width="0dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:hint="@string/message_hint"
-                android:inputType="text" />
+                android:layout_marginStart="25dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/addMedia"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:text="@string/button_media" />
+        </androidx.appcompat.widget.Toolbar>
 
-            <Button
-                android:id="@+id/send"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:text="@string/button_message" />
-        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    </LinearLayout>
 
 </RelativeLayout>
