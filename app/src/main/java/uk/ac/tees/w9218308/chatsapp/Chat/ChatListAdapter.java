@@ -13,9 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import uk.ac.tees.w9218308.chatsapp.ChatActivity;
+import uk.ac.tees.w9218308.chatsapp.ChatFragment;
 import uk.ac.tees.w9218308.chatsapp.R;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder> {
@@ -40,10 +44,15 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     @Override
     public void onBindViewHolder(@NonNull final ChatListViewHolder holder, final int position) {
+
+        /*holder.mName.setText(chatList.get(position).getChatName());
+        holder.mMessage.setText(chatList.get(position).getChatMessage());
+        if (chatList.get(position).getChatImage().equals("default"))
+            holder.mImage.setImageResource(R.drawable.profile_image);
+        else
+            Glide.with(context).load(chatList.get(position).getChatImage()).into(holder.mImage);*/
+
         holder.mTitle.setText(chatList.get(position).getChatId());
-        /*holder.mPhone.setText(chatList.get(position).getPhone());
-        holder.mStatus.setText(chatList.get(position).getStatus());
-        holder.mImage.setImageBitmap(chatList.get(position).getImageUrl());*/
 
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,17 +72,18 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     class ChatListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mTitle/*, mPhone, mStatus*/;
-        //        public ImageView mImage;
+        TextView mName, mMessage;
+        CircleImageView mImage;
         LinearLayout mLayout;
+        public TextView mTitle;
 
         ChatListViewHolder(View view) {
             super(view);
-            mTitle = view.findViewById(R.id.chatTitle);
-            /*mPhone = view.findViewById(R.id.phone);
-            mStatus = view.findViewById(R.id.status);
-            mImage = view.findViewById(R.id.image);*/
-            mLayout = view.findViewById(R.id.userLayout);
+            /*mName = view.findViewById(R.id.chatName);
+            mMessage = view.findViewById(R.id.chatMessage);
+            mImage = view.findViewById(R.id.chatImage);*/
+            mLayout = view.findViewById(R.id.chatListLayout);
+            mTitle = view.findViewById(R.id.title);
         }
     }
 }

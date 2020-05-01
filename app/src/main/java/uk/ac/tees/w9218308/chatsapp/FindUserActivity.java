@@ -37,19 +37,41 @@ public class FindUserActivity extends AppCompatActivity {
 
     ArrayList<UserObject> contactList, userList;
 
-    Toolbar mToolbar;
+//    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_user);
 
-        initializeFields();
+       /* mToolbar = findViewById(R.id.userToolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Select Contact");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
+            }
+        });*/
+
+        contactList = new ArrayList<>();
+        userList = new ArrayList<>();
+
+        Button mCreate = findViewById(R.id.create);
+        mCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createChat();
+            }
+        });
+
         initializeUsers();
         getContactList();
     }
 
-    /*public void createChat() {
+    private void createChat() {
         String key = FirebaseDatabase.getInstance().getReference().child("chat").push().getKey();
 
         DatabaseReference chatInfoDB = FirebaseDatabase.getInstance().getReference().child("chat").child(key).child("info");
@@ -71,8 +93,9 @@ public class FindUserActivity extends AppCompatActivity {
         if (validChat) {
             chatInfoDB.updateChildren(newChatMap);
             userDB.child(FirebaseAuth.getInstance().getUid()).child("chat").child(key).setValue(true);
+
         }
-    }*/
+    }
 
     private void getContactList() {
 
@@ -163,32 +186,7 @@ public class FindUserActivity extends AppCompatActivity {
         mUserList.setHasFixedSize(false);
         mUserListLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
         mUserList.setLayoutManager(mUserListLayoutManager);
-        mUserListAdapter = new UserListAdapter(getApplicationContext(), userList);
+        mUserListAdapter = new UserListAdapter(/*getApplicationContext(),*/ userList);
         mUserList.setAdapter(mUserListAdapter);
-    }
-
-    private void initializeFields() {
-        contactList = new ArrayList<>();
-        userList = new ArrayList<>();
-
-        mToolbar = findViewById(R.id.findUserToolBar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Select Contact");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
-            }
-        });
-
-        /*Button mCreate = findViewById(R.id.create);
-        mCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createChat();
-            }
-        });*/
     }
 }

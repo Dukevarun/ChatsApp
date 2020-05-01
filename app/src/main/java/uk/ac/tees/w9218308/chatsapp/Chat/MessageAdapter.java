@@ -48,6 +48,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         if (messageList.get(holder.getAdapterPosition()).getMediaUrlList().isEmpty())
             holder.mViewMedia.setVisibility(View.GONE);
+        else
+            holder.mViewMedia.setVisibility(View.VISIBLE);
 
         holder.mViewMedia.setOnClickListener(new View.OnClickListener() {
             @Override

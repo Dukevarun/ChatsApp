@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".FindUserActivity">
-
-
-    <include
-        android:id="@+id/findUserToolBar"
-        layout="@layout/appbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userList"
+    android:orientation="vertical">
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
+        android:id="@+id/create"
+        android:text="Create Chat Room"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userList"
+        android:scrollbars="vertical">
+    </androidx.recyclerview.widget.RecyclerView>
+
 </LinearLayout>

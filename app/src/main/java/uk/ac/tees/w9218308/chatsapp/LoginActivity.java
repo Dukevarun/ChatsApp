@@ -42,7 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(this);
 
-        initialiseFields();
+        mPhoneNumber = findViewById(R.id.phoneNumber);
+        mCode = findViewById(R.id.code);
+        mCode.setVisibility(View.GONE);
+        mSend = findViewById(R.id.send);
 
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
                 mVerificationId = s;
-                mSend.setText("Verify Code");
+                mSend.setText(R.string.button_verify);
                 mCode.setVisibility(View.VISIBLE);
             }
         };
@@ -136,12 +139,5 @@ public class LoginActivity extends AppCompatActivity {
                 TimeUnit.SECONDS,
                 this,
                 mCallBacks);
-    }
-
-    private void initialiseFields() {
-        mPhoneNumber = findViewById(R.id.phoneNumber);
-        mCode = findViewById(R.id.code);
-        mCode.setVisibility(View.INVISIBLE);
-        mSend = findViewById(R.id.send);
     }
 }

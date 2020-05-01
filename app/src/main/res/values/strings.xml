@@ -10,6 +10,7 @@
     <string name="user_name">Name</string>
     <string name="user_phone">Phone</string>
     <string name="user_status">Status</string>
+    <string name="user_Message">Message</string>
     <string name="chat_title">Title</string>
     <string name="message_hint">Type your message here</string>
     <string name="button_message">Send</string>
@@ -19,6 +20,8 @@
     <string name="profile_username">Enter a Username</string>
     <string name="profile_status">Enter a Profile Status</string>
     <string name="button_update">Update Profile</string>
+    <string name="button_verify">Verify Code</string>
+    <string name="button_camera">Open Camera</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

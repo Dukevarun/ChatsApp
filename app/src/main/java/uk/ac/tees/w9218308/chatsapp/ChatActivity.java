@@ -48,24 +48,22 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mChatLayoutManager, mMediaLayoutManager;
 
     private ArrayList<MessageObject> messageList;
+    private ArrayList<UserObject> userList;
 
-    /*DatabaseReference mUserDB;*/
+    DatabaseReference mUserDB;
     DatabaseReference mChatMessageDB;
 
-    private UserObject mUserObject;
     private ChatObject mChatObject;
 
-    private CircleImageView profileImage;
-    private TextView username;
-
-//    private Intent intent;
+    /*private CircleImageView profileImage;
+    private TextView username;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        Toolbar mToolbar = findViewById(R.id.chatBar);
+        /*Toolbar mToolbar = findViewById(R.id.chatBar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -78,39 +76,12 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         profileImage = findViewById(R.id.profileImage);
-        username = findViewById(R.id.username);
-
-        /*intent = getIntent();
-        String userId = intent.getStringExtra("userId");*/
-
+        username = findViewById(R.id.username);*/
         mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
-        mUserObject = (UserObject) getIntent().getSerializableExtra("userObject");
 
-        /*mUserDB = FirebaseDatabase.getInstance().getReference().child("user").child(mUserObject.getUid());*/
         mChatMessageDB = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
 
-
-        /*FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference mUserDB = FirebaseDatabase.getInstance().getReference("user").child(userId);*/
-
-        /*mUserDB.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserObject user = dataSnapshot.getValue(UserObject.class);
-                username.setText(user.getName());
-                if (user.getImageUrl().equals(""))
-                    profileImage.setImageResource(R.drawable.profile_image);
-                else
-                    Glide.with(getApplicationContext()).load(user.getImageUrl()).into(profileImage);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-        /*Button mSend = findViewById(R.id.send);
+        Button mSend = findViewById(R.id.send);
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +95,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 openGallery();
             }
-        });*/
+        });
 
         initializeMessage();
         initializeMedia();
@@ -143,7 +114,7 @@ public class ChatActivity extends AppCompatActivity {
                     if (dataSnapshot.child("creator").getValue() != null)
                         creatorID = dataSnapshot.child("creator").getValue().toString();
 
-                    if (dataSnapshot.child("media").getChildrenCount()>0)
+                    if (dataSnapshot.child("media").getChildrenCount() > 0)
                         for (DataSnapshot mediaSnapshot : dataSnapshot.child("media").getChildren())
                             mediaUrlList.add(mediaSnapshot.getValue().toString());
 
@@ -183,7 +154,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage() {
 
-        mMessage = findViewById(R.id.message);
+        mMessage = findViewById(R.id.messageInput);
 
         String messageId = mChatMessageDB.push().getKey();
         final DatabaseReference newMessageDB = mChatMessageDB.child(messageId);
@@ -248,7 +219,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initializeMessage() {
         messageList = new ArrayList<>();
-//        mChat = findViewById(R.id.messageList);
+        mChat = findViewById(R.id.messageList);
         mChat.setNestedScrollingEnabled(false);
         mChat.setHasFixedSize(false);
         mChatLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
@@ -262,7 +233,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initializeMedia() {
         mediaUriList = new ArrayList<>();
-//        mMedia = findViewById(R.id.mediaList);
+        mMedia = findViewById(R.id.mediaList);
         mMedia.setNestedScrollingEnabled(false);
         mMedia.setHasFixedSize(false);
         mMediaLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
