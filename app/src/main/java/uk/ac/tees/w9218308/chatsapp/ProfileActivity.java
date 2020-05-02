@@ -11,9 +11,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,7 +38,6 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import uk.ac.tees.w9218308.chatsapp.User.UserObject;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -135,12 +137,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-
     private void openImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_INTENT);
+        startActivityForResult(intent, PICK_IMAGE_INTENT);
     }
 
     @Override
@@ -167,12 +168,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void uploadImage() {
-        final ProgressDialog pd = new ProgressDialog(getApplicationContext());
-        pd.setMessage("Uploading");
-        pd.show();
+
+        final ProgressBar pb = findViewById(R.id.progressBar);
+        pb.setVisibility(View.VISIBLE);
 
         if (imageUri != null) {
-            final StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+            final StorageReference fileReference = storageReference.child("profileImages").child(currentUserId + "." + getFileExtension(imageUri));
 
             uploadTask = fileReference.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -190,26 +191,25 @@ public class ProfileActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
                         String mUri = downloadUri.toString();
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user").child(currentUserId);
+                        DatabaseReference userProfileDB = FirebaseDatabase.getInstance().getReference("user").child(currentUserId);
                         HashMap<String, Object> imageMap = new HashMap<>();
                         imageMap.put("image", mUri);
-                        reference.updateChildren(imageMap);
-
-                        pd.dismiss();
+                        userProfileDB.updateChildren(imageMap);
+                        pb.setVisibility(View.GONE);
                     } else {
-                        Toast.makeText(ProfileActivity.this, "Failed to Upload", Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
+                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                        pb.setVisibility(View.GONE);
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    pd.dismiss();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    pb.setVisibility(View.GONE);
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), "No image Selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "No Image Selected", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -236,6 +236,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         currentUserId = mAuth.getCurrentUser().getUid();
-        storageReference = FirebaseStorage.getInstance().getReference().child("profile image");
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 }
