@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <Button
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/findUserBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/create"
-        android:text="Create Chat Room"/>
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/userList"
+        android:layout_below="@id/findUserBar"
         android:scrollbars="vertical">
+
     </androidx.recyclerview.widget.RecyclerView>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/create_chatroom" />
+
+</RelativeLayout>

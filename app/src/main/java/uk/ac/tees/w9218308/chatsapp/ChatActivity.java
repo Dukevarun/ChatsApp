@@ -228,7 +228,7 @@ public class ChatActivity extends AppCompatActivity {
         mChat.setAdapter(mChatAdapter);
     }
 
-    int PICK_IMAGE_INTENT = 1;
+    private static final int PICK_IMAGE_INTENT = 1;
     ArrayList<String> mediaUriList = new ArrayList<>();
 
     private void initializeMedia() {

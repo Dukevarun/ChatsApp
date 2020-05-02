@@ -37,14 +37,14 @@ public class FindUserActivity extends AppCompatActivity {
 
     ArrayList<UserObject> contactList, userList;
 
-//    Toolbar mToolbar;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_user);
 
-       /* mToolbar = findViewById(R.id.userToolbar);
+        mToolbar = findViewById(R.id.findUserBar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Select Contact");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -52,9 +52,11 @@ public class FindUserActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
+                Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
-        });*/
+        });
 
         contactList = new ArrayList<>();
         userList = new ArrayList<>();
