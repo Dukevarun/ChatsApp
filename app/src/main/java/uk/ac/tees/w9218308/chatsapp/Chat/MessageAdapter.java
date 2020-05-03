@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull final MessageViewHolder holder, final int position) {
+
         holder.mMessage.setText(messageList.get(position).getMessage());
         holder.mSender.setText(messageList.get(position).getSenderId());
 

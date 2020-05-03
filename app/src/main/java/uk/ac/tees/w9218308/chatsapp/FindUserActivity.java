@@ -66,6 +66,9 @@ public class FindUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createChat();
+                Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -188,7 +191,7 @@ public class FindUserActivity extends AppCompatActivity {
         mUserList.setHasFixedSize(false);
         mUserListLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
         mUserList.setLayoutManager(mUserListLayoutManager);
-        mUserListAdapter = new UserListAdapter(/*getApplicationContext(),*/ userList);
+        mUserListAdapter = new UserListAdapter(getApplicationContext(), userList);
         mUserList.setAdapter(mUserListAdapter);
     }
 }

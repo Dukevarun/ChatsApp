@@ -30,23 +30,25 @@
             android:orientation="horizontal">
 
             <EditText
-                android:layout_weight="0.8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:id="@+id/messageInput"
-                android:hint="message..."/>
-            <Button
-                android:layout_weight="0.2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="add media"
-                android:id="@+id/addMedia"/>
+                android:layout_weight="0.8"
+                android:hint="@string/message_hint" />
+
             <Button
-                android:layout_weight="0.2"
+                android:id="@+id/addMedia"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="send"
-                android:id="@+id/send"/>
+                android:layout_weight="0.2"
+                android:text="@string/button_media" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="@string/button_message" />
         </LinearLayout>
     </LinearLayout>
 

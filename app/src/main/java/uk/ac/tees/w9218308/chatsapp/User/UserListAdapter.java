@@ -27,11 +27,11 @@ import uk.ac.tees.w9218308.chatsapp.R;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserListViewHolder> {
 
-//    private Context context;
+    private Context context;
     private ArrayList<UserObject> userList;
 
-    public UserListAdapter(/*Context context,*/ArrayList<UserObject> userList) {
-//        this.context = context;
+    public UserListAdapter(Context context,ArrayList<UserObject> userList) {
+        this.context = context;
         this.userList = userList;
     }
 
@@ -49,11 +49,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         holder.mName.setText(userList.get(position).getName());
         holder.mPhone.setText(userList.get(position).getPhone());
         holder.mStatus.setText(userList.get(position).getStatus());
-        /*if (userList.get(position).getImageUrl().equals("default"))
+        if (userList.get(position).getImageUrl().equals("default"))
             holder.mImage.setImageResource(R.drawable.profile_image);
         else
             Glide.with(context).load(userList.get(position).getImageUrl()).into(holder.mImage);
-*/
+
+
         /*holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

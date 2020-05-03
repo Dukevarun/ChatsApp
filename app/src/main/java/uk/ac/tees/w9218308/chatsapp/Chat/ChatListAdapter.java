@@ -2,25 +2,20 @@ package uk.ac.tees.w9218308.chatsapp.Chat;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import uk.ac.tees.w9218308.chatsapp.ChatActivity;
-import uk.ac.tees.w9218308.chatsapp.ChatFragment;
 import uk.ac.tees.w9218308.chatsapp.R;
+
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder> {
 
@@ -45,12 +40,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     @Override
     public void onBindViewHolder(@NonNull final ChatListViewHolder holder, final int position) {
 
-        /*holder.mName.setText(chatList.get(position).getChatName());
-        holder.mMessage.setText(chatList.get(position).getChatMessage());
-        if (chatList.get(position).getChatImage().equals("default"))
-            holder.mImage.setImageResource(R.drawable.profile_image);
-        else
-            Glide.with(context).load(chatList.get(position).getChatImage()).into(holder.mImage);*/
 
         holder.mTitle.setText(chatList.get(position).getChatId());
 
@@ -72,8 +61,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     class ChatListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mName, mMessage;
-        CircleImageView mImage;
+        /*TextView mName, mMessage;
+        CircleImageView mImage;*/
         LinearLayout mLayout;
         public TextView mTitle;
 
