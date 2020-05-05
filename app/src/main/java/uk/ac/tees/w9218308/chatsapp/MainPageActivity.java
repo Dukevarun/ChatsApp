@@ -20,7 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.onesignal.OneSignal;
 
-import uk.ac.tees.w9218308.chatsapp.Utils.SendNotification;
+import uk.ac.tees.w9218308.chatsapp.Fragments.CameraFragment;
+import uk.ac.tees.w9218308.chatsapp.Fragments.ChatListFragment;
+import uk.ac.tees.w9218308.chatsapp.Utils.SectionsPagerAdapter;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
@@ -59,7 +61,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mSectionsPagerAdapter.addFragment(new CameraFragment(), "Camera");
-        mSectionsPagerAdapter.addFragment(new ChatFragment(), "Chats");
+        mSectionsPagerAdapter.addFragment(new ChatListFragment(), "Chats");
         mViewPager = findViewById(R.id.tabPager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -112,6 +114,7 @@ public class MainPageActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CONTACTS}, 1);
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},2);
+            requestPermissions(new String[]{Manifest.permission.INTERNET}, 3);
         }
     }
 }

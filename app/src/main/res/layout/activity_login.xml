@@ -63,7 +63,7 @@
         android:layout_below="@+id/code"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
-        android:background="@drawable/buttons"
+        android:background="@color/colorPrimary"
         android:text="@string/button_send"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"

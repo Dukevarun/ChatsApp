@@ -3,6 +3,7 @@ package uk.ac.tees.w9218308.chatsapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,9 +57,13 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        /*Toolbar mToolbar = findViewById(R.id.chatBar);
+        mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
+
+        mChatMessageDB = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
+
+        Toolbar mToolbar = findViewById(R.id.chatToolBar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(mChatObject.getChatId());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -67,12 +72,6 @@ public class ChatActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        profileImage = findViewById(R.id.profileImage);
-        username = findViewById(R.id.username);*/
-        mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
-
-        mChatMessageDB = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
 
         Button mSend = findViewById(R.id.send);
         mSend.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package uk.ac.tees.w9218308.chatsapp;
+package uk.ac.tees.w9218308.chatsapp.Fragments;
 
 
 import android.content.Intent;
@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import uk.ac.tees.w9218308.chatsapp.R;
 
 
 /**

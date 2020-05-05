@@ -1,4 +1,4 @@
-package uk.ac.tees.w9218308.chatsapp;
+package uk.ac.tees.w9218308.chatsapp.Utils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,17 +23,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
-
-        /*switch (position) {
-            case 0:
-                CameraFragment cameraFragment = new CameraFragment();
-                return cameraFragment;
-            case 1:
-                ChatFragment chatFragment = new ChatFragment();
-                return chatFragment;
-            default:
-                return null;
-        }*/
     }
 
     @Override
@@ -51,14 +40,5 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return titles.get(position);
-
-        /*switch (position) {
-            case 0:
-                return "Camera";
-            case 1:
-                return "Chats";
-            default:
-                return null;
-        }*/
     }
 }

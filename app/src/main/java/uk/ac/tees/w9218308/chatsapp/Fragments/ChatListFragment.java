@@ -1,4 +1,4 @@
-package uk.ac.tees.w9218308.chatsapp;
+package uk.ac.tees.w9218308.chatsapp.Fragments;
 
 
 import android.os.Bundle;
@@ -24,13 +24,14 @@ import java.util.ArrayList;
 
 import uk.ac.tees.w9218308.chatsapp.Chat.ChatListAdapter;
 import uk.ac.tees.w9218308.chatsapp.Chat.ChatObject;
+import uk.ac.tees.w9218308.chatsapp.R;
 import uk.ac.tees.w9218308.chatsapp.User.UserObject;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatFragment extends Fragment {
+public class ChatListFragment extends Fragment {
 
     private View chatsView;
     private FirebaseAuth mAuth;
@@ -41,7 +42,7 @@ public class ChatFragment extends Fragment {
 
     ArrayList<ChatObject> chatList;
 
-    public ChatFragment() {
+    public ChatListFragment() {
         // Required empty public constructor
     }
 
