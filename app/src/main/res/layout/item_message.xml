@@ -13,12 +13,14 @@
         <TextView
             android:id="@+id/sender"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="2dp" />
 
         <TextView
             android:id="@+id/messageList"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="2dp" />
 
         <View
             android:id="@+id/view"
@@ -32,6 +34,6 @@
         android:id="@+id/viewMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Media" />
+        android:text="@string/button_view_media" />
 
 </LinearLayout>

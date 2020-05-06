@@ -23,6 +23,7 @@
     <string name="button_verify">Verify Code</string>
     <string name="button_camera">Open Camera</string>
     <string name="create_chatroom">Create Chat Room</string>
+    <string name="button_view_media">View Image</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
