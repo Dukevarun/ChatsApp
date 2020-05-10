@@ -147,7 +147,7 @@ public class FindUserActivity extends AppCompatActivity {
                             name = childSnapshot.child("name").getValue().toString();
                         if (childSnapshot.child("status").getValue() != null)
                             status = childSnapshot.child("status").getValue().toString();
-                        if (childSnapshot.child("image").getValue() != null)
+                        if (childSnapshot.child("image").getValue() != "default")
                             image = childSnapshot.child("image").getValue().toString();
 
                         UserObject mUser = new UserObject(childSnapshot.getKey(), name, phone, status, image);
@@ -160,8 +160,7 @@ public class FindUserActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        if (!childSnapshot.child("chat").exists())
-                            userList.add(mUser);
+                        userList.add(mUser);
                         mUserListAdapter.notifyDataSetChanged();
                         return;
                     }

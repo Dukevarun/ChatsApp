@@ -63,7 +63,7 @@ public class ChatActivity extends AppCompatActivity {
 
         mChatMessageDB = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
 
-        Toolbar mToolbar = findViewById(R.id.chatToolBar);
+        /*Toolbar mToolbar = findViewById(R.id.chatToolBar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(mChatObject.getChatId());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -73,7 +73,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
 
         Button mSend = findViewById(R.id.send);
         mSend.setOnClickListener(new View.OnClickListener() {
